@@ -1,0 +1,46 @@
+给定一个有序整数数组，元素各不相同且按升序排列，编写一个算法，创建一棵高度最小的二叉搜索树。
+
+示例:
+给定有序数组: [-10,-3,0,5,9],
+
+一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：
+
+          0 
+         / \ 
+       -3   9 
+       /   / 
+     -10  5 
+
+来源：力扣（LeetCode）
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+struct TreeNode* buildBST(int* nums, int left, int right);
+
+struct TreeNode* sortedArrayToBST(int* nums, int numsSize){
+    /*数组是升序的,可以采用分而治之的方式*/
+   return buildBST(nums, 0, numsSize-1);
+
+}
+
+struct TreeNode* buildBST(int* nums, int left, int right){
+    //采用分而治之的方式
+    if(left>right)
+        return NULL;
+    else{
+        int mid = ceil((float)(left+right)/2);//根据题意应该是向上取整
+        struct TreeNode* pNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+        pNode->val = nums[mid];
+        pNode->left = buildBST(nums, left, mid-1);
+        pNode->right  = buildBST(nums, mid+1, right);
+
+        return pNode;
+    }
+}
